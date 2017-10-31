@@ -1,0 +1,18 @@
+{
+  "name": "boi-plugin-vue",
+  "version": "0.0.0",
+  "description": "boi plugin for vue compiling",
+  "main": "index.js",
+  "keywords": [
+    "boi",
+    "vue"
+  ],
+  "author": "zhoujunpeng",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^7.1.6",
+    "eslint-friendly-formatter": "^3.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "webpack": "^3.8.1"
+  }
+}
