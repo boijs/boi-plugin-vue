@@ -1,18 +1,26 @@
 {
   "name": "boi-plugin-vue",
-  "version": "0.0.0",
-  "description": "boi plugin for vue compiling",
+  "version": "0.0.1",
+  "description": "plugin for boi to build vue project",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js",
+    "test": "mocha test"
+  },
   "keywords": [
     "boi",
     "vue"
   ],
-  "author": "zhoujunpeng",
-  "license": "ISC",
+  "author": "zhoujunpeng <zjp0432@163.com> (https://github.com/zhoujunpeng)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:boijs/boi-plugin-vue.git"
+  },
   "dependencies": {
-    "autoprefixer": "^7.1.6",
     "eslint-friendly-formatter": "^3.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "webpack": "^3.8.1"
-  }
+  },
+  "devDependencies": {}
 }

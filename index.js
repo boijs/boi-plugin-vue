@@ -8,8 +8,8 @@ const DEFAULT_OPTIONS = {
   cssUseHash: true,
   // if extract css files or not
   extractCss: true,
-  // enable autoprefixer
-  autoprefixer: false,
+  // enable postcss
+  enablePostCss: false,
   // enable lint to js&vue files
   enableLint: false
 };
@@ -17,8 +17,9 @@ const DEFAULT_OPTIONS = {
 module.exports = function (opts) {
   const Options = Object.assign({}, DEFAULT_OPTIONS, opts);
 
+  // extract css files 
   const ExtractPlugin = new ExtractTextPlugin({
-    filename: `${Path.basename(Options.cssOutputDir)}/${Options.cssUseHash?'[name].[contenthash:8].css':'[name].css'}`
+    filename: `${Path.basename(Options.cssOutputDir)}/${Options.cssUseHash?'[name]_components.[contenthash:8].css':'[name]_components.css'}`
   });
 
   function GetLoaders() {
@@ -32,12 +33,9 @@ module.exports = function (opts) {
       }
     });
 
-    if (Options.autoprefixer) {
+    if (Options.enablePostCss) {
       BaseLoaders.push({
-        loader: 'postcss-loader',
-        options: {
-          plugins: [require('autoprefixer')]
-        }
+        loader: 'postcss-loader'
       });
     }
 
@@ -61,7 +59,7 @@ module.exports = function (opts) {
         loader: 'vue-style-loader'
       }].concat(BaseLoaders, ['sass-loader'])
     };
-  };
+  }
 
   const Rules = [{
     test: /\.vue$/,
@@ -109,4 +107,4 @@ module.exports = function (opts) {
       'vue-style-loader'
     ]
   };
-}
+};
