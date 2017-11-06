@@ -1,6 +1,6 @@
 {
   "name": "boi-plugin-vue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "plugin for boi to build vue project",
   "main": "index.js",
   "scripts": {
