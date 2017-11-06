@@ -1,4 +1,5 @@
 const Path = require('path');
+const Webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const DEFAULT_OPTIONS = {
@@ -16,11 +17,23 @@ const DEFAULT_OPTIONS = {
 
 module.exports = function (opts) {
   const Options = Object.assign({}, DEFAULT_OPTIONS, opts);
+  const Plugins = [];
 
+  if(process.env.BOI_ENV !== 'dev'){
+    Plugins.push(new Webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }));
+  }
   // extract css files 
   const ExtractPlugin = new ExtractTextPlugin({
     filename: `${Path.basename(Options.cssOutputDir)}/${Options.cssUseHash?'[name]_components.[contenthash:8].css':'[name]_components.css'}`
   });
+
+  if(Options.extractCss){
+    Plugins.push(ExtractPlugin);
+  }
 
   function GetLoaders() {
     const BaseLoaders = [];
@@ -93,7 +106,7 @@ module.exports = function (opts) {
       module: {
         rules: Rules
       },
-      plugins: Options.extractCss ? [ExtractPlugin] : [],
+      plugins: Plugins,
       resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias: {
