@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
   // add hash fingerprint to extract css files
   cssUseHash: true,
   // if extract css files or not
-  extractCss: true,
+  extractCss: false,
   // extracted css' file name
   extractFilename: 'components',
   // enable postcss

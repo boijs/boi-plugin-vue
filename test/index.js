@@ -57,7 +57,7 @@ describe('Lint', () => {
     const Result = BoiPluginVue({
       enableLint: false
     });
-    if (Result.webpackConf.plugins.length === 1) {
+    if (Result.webpackConf.module.rules.length === 1) {
       done();
     }
   });
