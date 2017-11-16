@@ -1,5 +1,4 @@
 const Path = require('path');
-const Webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const DEFAULT_OPTIONS = {
@@ -9,6 +8,8 @@ const DEFAULT_OPTIONS = {
   cssUseHash: true,
   // if extract css files or not
   extractCss: true,
+  // extracted css' file name
+  extractFilename: 'components',
   // enable postcss
   enablePostCss: false,
   // enable lint to js&vue files
@@ -19,16 +20,13 @@ module.exports = function (opts) {
   const Options = Object.assign({}, DEFAULT_OPTIONS, opts);
   const Plugins = [];
 
-  if(process.env.BOI_ENV !== 'dev'){
-    Plugins.push(new Webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }));
-  }
+  const PublicPath = Options.extractCss && Options.cssOutputDir ? '../' : '';
+  const Filename = `[name]${Options.extractFilename?'-'+Options.extractFilename:''}`;
   // extract css files 
   const ExtractPlugin = new ExtractTextPlugin({
-    filename: `${Path.basename(Options.cssOutputDir)}/${Options.cssUseHash?'[name]_components.[contenthash:8].css':'[name]_components.css'}`
+    filename: `${Path.basename(Options.cssOutputDir)}/${Filename}${Options.cssUseHash?'.[contenthash:8].css':'.css'}`,
+    allChunks: true,
+    ignoreOrder: true
   });
 
   if(Options.extractCss){
@@ -51,23 +49,26 @@ module.exports = function (opts) {
         loader: 'postcss-loader'
       });
     }
-
+    
     return {
       css: Options.extractCss ? ExtractTextPlugin.extract({
         use: BaseLoaders,
-        fallback: 'vue-style-loader'
+        fallback: 'vue-style-loader',
+        publicPath: PublicPath
       }) : [{
         loader: 'vue-style-loader'
       }].concat(BaseLoaders),
       less: Options.extractCss ? ExtractTextPlugin.extract({
         use: BaseLoaders.concat(['less-loader']),
-        fallback: 'vue-style-loader'
+        fallback: 'vue-style-loader',
+        publicPath: PublicPath
       }) : [{
         loader: 'vue-style-loader'
       }].concat(BaseLoaders, ['less-loader']),
       scss: Options.extractCss ? ExtractTextPlugin.extract({
         use: BaseLoaders.concat(['sass-loader']),
-        fallback: 'vue-style-loader'
+        fallback: 'vue-style-loader',
+        publicPath: PublicPath
       }) : [{
         loader: 'vue-style-loader'
       }].concat(BaseLoaders, ['sass-loader'])
