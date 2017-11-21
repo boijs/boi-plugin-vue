@@ -123,6 +123,9 @@ module.exports = function (opts) {
       'eslint-loader', 
       'postcss-loader',
       'vue-style-loader'
-    ]
+    ],
+    alias: {
+      'vue': 'vue/dist/vue.esm.js'
+    }
   };
 };
