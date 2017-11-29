@@ -39,7 +39,7 @@ module.exports = function (opts) {
     BaseLoaders.push({
       loader: 'css-loader',
       options: {
-        url: process.env.BOI_ENV === 'dev' ? false : true,
+        url: true,
         minimize: process.env.BOI_ENV === 'dev' ? false : true
       }
     });
